@@ -25,22 +25,27 @@ public class Main {
         renamingFilesFromFolderVideos(path, numberName);
     }
 
-    private static void renamingFilesRandomNumbersName(String path, Integer rangeOfTheRandom){
+    private static synchronized void renamingFilesRandomNumbersName(String path, Integer rangeOfTheRandom){
         System.out.println("####################### RENAMING WITH RANDOM NUMBERS ###############################");
-//        System.out.printf("------------------- %s%n ----------------------------", path);
         File videos = new File(path);
         File[] files = videos.listFiles(File::isFile);
+        System.out.println(files.length);
+        if(files.length >= rangeOfTheRandom){
+            throw new IllegalArgumentException("Range of the Random must be greater than: " + files.length);
+        }
         Set<Integer> mix = new HashSet<>(rangeOfTheRandom);
         Random random = new Random();
         if (files != null){
-            for (int i = 0; i < files.length + 100; i++) {
+            do {
                 mix.add(Integer.valueOf(random.nextInt(rangeOfTheRandom )));
-            }
+            } while (mix.size() <= (files.length + 50));
+            System.out.println(mix.size());
             List<Integer> mixList = new ArrayList<>(mix);
+            int cont = 0;
             for (int i = 0; i < files.length; i++) {
                 File newName = new File(path + mixList.get(i));
                 try {
-                    System.out.println(files[i].renameTo(newName));
+                    System.out.println("i: " + i + " " + files[i].renameTo(newName));
 //                    System.out.println(newName.getName());
                 } catch (RuntimeException e){
                     e.printStackTrace();
