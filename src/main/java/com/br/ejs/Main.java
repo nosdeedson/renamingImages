@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         if (args.length < 3) {
             throw new RuntimeException("Passe o caminho da pasta com as imagens, e numero para o primeiro nome de imagem." +
                     " O range para o Random");
@@ -22,6 +22,7 @@ public class Main {
         System.out.println("number name: " + numberName);
         System.out.println("rangeOfTheRandom: " + rangeOfTheRandom);
         renamingFilesRandomNumbersName(path, rangeOfTheRandom);
+        Thread.sleep(5000);
         renamingFilesFromFolderVideos(path, numberName);
     }
 
@@ -37,7 +38,7 @@ public class Main {
         Random random = new Random();
         if (files != null){
             do {
-                mix.add(Integer.valueOf(random.nextInt(rangeOfTheRandom )));
+                mix.add(Integer.valueOf(random.nextInt(rangeOfTheRandom ) + 20000));
             } while (mix.size() <= (files.length + 50));
             System.out.println(mix.size());
             List<Integer> mixList = new ArrayList<>(mix);
